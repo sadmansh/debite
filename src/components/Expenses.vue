@@ -11,15 +11,8 @@
 						</select>
 					</label>
 				</div>
-				<button id="add-expense">Add Expense</button>
+				<button id="add-expense" @click="showModal">Add Expense</button>
 			</div>
-			<form @submit.prevent="addExpense(title, amount, bank, comments)">
-				<input type="text" v-model="title" placeholder="Title">
-				<input type="number" v-model="amount" placeholder="Amount">
-				<input type="text" v-model="bank" placeholder="Bank">
-				<input type="text" v-model="comments" placeholder="Comments">
-				<button type="submit">Create Expense</button>
-			</form>
 			<table class="expenses-table">
 				<thead>
 					<tr>
@@ -47,14 +40,20 @@
 				</tfoot>
 			</table>
 		</div>
+		<Modal v-show="modalVisibility" @close="closeModal" />
 	</div>
 </template>
 
 <script>
 import { db, Timestamp } from '@/main'
 
+import Modal from './Modal.vue'
+
 export default {
 	name: 'Expenses',
+	components: {
+		Modal,
+	},
 	props: {
 		newRecord: Object
 	},
@@ -62,10 +61,13 @@ export default {
 		return {
 			expenses: [],
 			monthTotal: 0,
-			title: '',
-			amount: 0,
-			bank: '',
-			comments: '',
+			user: {
+				title: '',
+				amount: 0,
+				bank: '',
+				comments: '',
+			},
+			modalVisibility: false,
 		}
 	},
 	firestore() {
@@ -77,6 +79,12 @@ export default {
 		addExpense(title, amount, bank, comments) {
 			let date = Timestamp.fromDate(new Date())
 			db.collection('expenses').add({ title, amount, bank, date, comments })
+		},
+		showModal() {
+			this.modalVisibility = true
+		},
+		closeModal() {
+			this.modalVisibility = false
 		}
 	},
 }
