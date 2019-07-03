@@ -147,8 +147,7 @@ table {
 	width: 100%;
 	border-spacing: 0;
 
-	thead,
-	tfoot {
+	thead {
 		border: none;
 
 		tr {
@@ -166,6 +165,10 @@ table {
 
 	td {
 		border-bottom: 1px solid #f4f7fd;
+	}
+
+	tfoot td {
+		font-weight: 600;
 	}
 }
 
