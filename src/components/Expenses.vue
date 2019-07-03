@@ -13,6 +13,13 @@
 				</div>
 				<button id="add-expense">Add Expense</button>
 			</div>
+			<form @submit.prevent="addExpense(title, amount, bank, comments)">
+				<input type="text" v-model="title" placeholder="Title">
+				<input type="number" v-model="amount" placeholder="Amount">
+				<input type="text" v-model="bank" placeholder="Bank">
+				<input type="text" v-model="comments" placeholder="Comments">
+				<button type="submit">Create Expense</button>
+			</form>
 			<table class="expenses-table">
 				<thead>
 					<tr>
@@ -55,7 +62,10 @@ export default {
 		return {
 			expenses: [],
 			monthTotal: 0,
-			
+			title: '',
+			amount: 0,
+			bank: '',
+			comments: '',
 		}
 	},
 	firestore() {
@@ -64,7 +74,10 @@ export default {
 		}
 	},
 	methods: {
-		
+		addExpense(title, amount, bank, comments) {
+			let date = Timestamp.fromDate(new Date())
+			db.collection('expenses').add({ title, amount, bank, date, comments })
+		}
 	},
 }
 </script>
