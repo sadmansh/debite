@@ -1,22 +1,24 @@
 <template>
-	<div class="modal-backdrop">
-		<div class="modal">
-			<header class="modal-header">
-				<slot name="header">
-				</slot>
-			</header>
-			<section class="modal-body">
-				<slot name="body">
-					<h2>Form</h2>
-				</slot>
-			</section>
-			<footer class="modal-footer">
-				<slot name="footer">
-					<button @click="close">Exit</button>
-				</slot>
-			</footer>
+	<transition name="modal-fade">
+		<div class="modal-backdrop">
+			<div class="modal">
+				<header class="modal-header">
+					<slot name="header">
+					</slot>
+				</header>
+				<section class="modal-body">
+					<slot name="body">
+						<h2>Form</h2>
+					</slot>
+				</section>
+				<footer class="modal-footer">
+					<slot name="footer">
+						<button @click="close">Exit</button>
+					</slot>
+				</footer>
+			</div>
 		</div>
-	</div>
+	</transition>
 </template>
 
 <script>
@@ -52,6 +54,16 @@ export default {
 .modal {
 	background: #FFFFFF;
 	box-shadow: 2px 2px 20px 1px;
+}
+
+.modal-fade-enter,
+.modal-fade-leave-active {
+	opacity: 0;
+}
+
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+	transition: opacity 300ms ease-out;
 }
 
 </style>
