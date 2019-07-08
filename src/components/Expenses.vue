@@ -26,7 +26,7 @@
 				<tbody>
 					<tr v-for="(expense, idx) in expenses" :key="idx">
 						<td class="title">{{ expense.title }}</td>
-						<td class="amount">{{ expense.amount }}</td>
+						<td class="amount">{{ formatAmount(expense.amount) }}</td>
 						<td class="bank">{{ expense.bank }}</td>
 						<td class="date">{{ expense.date.toDate().toDateString() }}</td>
 						<td class="comments">{{ expense.comments }}</td>
@@ -35,12 +35,25 @@
 				<tfoot>
 					<tr>
 						<td>Total this month</td>
-						<td>{{ monthTotal }}</td>
+						<td>{{ formatAmount(monthTotal) }}</td>
 					</tr>
 				</tfoot>
 			</table>
 		</div>
-		<Modal v-show="modalVisibility" @close="closeModal" />
+		<Modal v-show="modalVisibility" @close="closeModal">
+			<div slot="modal-header">
+				<h1>Add Expense</h1>
+			</div>
+			<div slot="modal-body">
+				<form @submit.prevent="createExpense(userRecord.title, userRecord.amount, userRecord.bank, userRecord.comments)">
+					<input type="text" v-model="userRecord.title" placeholder="Title...">
+					<input type="number" step="0.01" v-model="userRecord.amount" placeholder="Amount...">
+					<input type="text" v-model="userRecord.bank" placeholder="Bank...">
+					<input type="text" v-model="userRecord.comments" placeholder="Comments...">
+					<button slot="modal-footer" type="submit" @click="closeModal">Add Expense</button>
+				</form>
+			</div>
+		</Modal>
 	</div>
 </template>
 
@@ -72,15 +85,32 @@ export default {
 		}
 	},
 	methods: {
-		addExpense(title, amount, bank, comments) {
+		createExpense(title, amount, bank, comments) {
 			let date = Timestamp.fromDate(new Date())
-			db.collection('expenses').add({ title, amount, bank, date, comments })
+			db.collection('users').doc(this.user.uid).collection('expenses').add({
+				title: title,
+				amount: amount,
+				bank: bank,
+				date: date,
+				comments: comments,
+			}).then(() => {
+				console.log('Successfully added')
+			})
 		},
 		showModal() {
 			this.modalVisibility = true
 		},
 		closeModal() {
 			this.modalVisibility = false
+		},
+		calculateTotal() {
+			this.monthTotal = 0
+			this.expenses.forEach((expense) => {
+				this.monthTotal += parseInt(expense.amount)
+			})
+		},
+		formatAmount(num) {
+			return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 		}
 	},
 	created() {
@@ -92,15 +122,19 @@ export default {
 		let self = this
 		const ref = db.collection('users').doc(this.user.uid).collection('expenses').orderBy('date', 'desc')
 		ref.onSnapshot(function(querySnapshot) {
+			let expenses = []
 			querySnapshot.forEach(function(doc) {
-				self.expenses.push(doc.data())
+				expenses.push(doc.data())
+				console.log(doc.data())
 			})
+			self.expenses = expenses
+			self.calculateTotal()
 		})
 	}
 }
+
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
 h1 {
