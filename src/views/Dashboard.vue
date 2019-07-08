@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard">
-    <Expenses msg="Welcome to Your Vue.js App"/>
+    <Expenses />
   </div>
 </template>
 
