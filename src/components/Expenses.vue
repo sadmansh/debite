@@ -1,6 +1,6 @@
 <template>
 	<div class="expenses">
-		<h1>Expenses</h1>
+		<h1>Expenses for {{ user.uid }}</h1>
 		<div class="expenses-inner">
 			<div class="expenses-header">
 				<div class="select-month">
@@ -46,7 +46,7 @@
 
 <script>
 import { db, Timestamp } from '@/main'
-
+import firebase from 'firebase/app'
 import Modal from './Modal.vue'
 
 export default {
@@ -61,18 +61,14 @@ export default {
 		return {
 			expenses: [],
 			monthTotal: 0,
-			user: {
+			userRecord: {
 				title: '',
 				amount: 0,
 				bank: '',
 				comments: '',
 			},
 			modalVisibility: false,
-		}
-	},
-	firestore() {
-		return {
-			expenses: db.collection('expenses').orderBy('date', 'desc')
+			user: firebase.auth().currentUser,
 		}
 	},
 	methods: {
@@ -87,6 +83,20 @@ export default {
 			this.modalVisibility = false
 		}
 	},
+	created() {
+		// firebase.auth().onAuthStateChanged((user) => {
+		// 	if (user) {
+		// 		this.user = user
+		// 	}
+		// })
+		let self = this
+		const ref = db.collection('users').doc(this.user.uid).collection('expenses').orderBy('date', 'desc')
+		ref.onSnapshot(function(querySnapshot) {
+			querySnapshot.forEach(function(doc) {
+				self.expenses.push(doc.data())
+			})
+		})
+	}
 }
 </script>
 
