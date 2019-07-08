@@ -93,8 +93,6 @@ export default {
 				bank: bank,
 				date: date,
 				comments: comments,
-			}).then(() => {
-				console.log('Successfully added')
 			})
 		},
 		showModal() {
@@ -125,7 +123,6 @@ export default {
 			let expenses = []
 			querySnapshot.forEach(function(doc) {
 				expenses.push(doc.data())
-				console.log(doc.data())
 			})
 			self.expenses = expenses
 			self.calculateTotal()
