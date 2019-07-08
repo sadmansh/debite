@@ -17,9 +17,18 @@
 			let self = this
 
 			let uiConfig = {
-				signInOptions: [{
-					provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-				}],
+				signInOptions: [
+					{
+						provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+
+					},
+					{
+						provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+					},
+					{
+						provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+					}
+				],
 				callbacks: {
 					signInSuccessWithAuthResult() {
 						localStorage.setItem('authenticated', true)
