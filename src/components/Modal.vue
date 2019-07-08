@@ -14,7 +14,7 @@
 				<footer class="modal-footer">
 					<slot name="modal-footer">
 					</slot>
-					<button @click="close">Exit</button>
+					<button @click="close" id="exit-modal">&times;</button>
 				</footer>
 			</div>
 		</div>
@@ -52,10 +52,15 @@ export default {
 }
 
 .modal {
+	position: relative;
 	padding: 2rem;
 	background: #FFFFFF;
 	box-shadow: 2px 2px 20px 1px;
 	width: 600px;
+
+	h1 {
+		margin: 0 0 1rem;
+	}
 
 	input {
 		display: block;
@@ -68,7 +73,8 @@ export default {
 		font-size: 1rem;
 		-webkit-appearance: none;
 	}
-	button {
+
+	form button {
 		padding: .75rem 1.5rem;
 		margin: .5rem .5rem 0;
 		border-radius: 8px;
@@ -78,15 +84,25 @@ export default {
 		font-size: 1rem;
 		cursor: pointer;
 		transition: background-color 300ms ease-out;
-	}
-
-	form button {
 		background-color: #417cfe;
 		color: #fff;
 
 		&:hover {
 			background-color: darken(#417cfe, 10%);
 		}
+	}
+
+	#exit-modal {
+		position: absolute;
+		top: 0;
+		right: 1rem;
+		background-color: transparent;
+		color: #417cfe;
+		font-size: 3rem;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		-webkit-appearance: none;
 	}
 }
 
