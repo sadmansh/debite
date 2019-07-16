@@ -30,9 +30,31 @@ router.beforeEach((to, from, next) => {
 	}
 })
 
-Vue.config.productionTip = false
+router.beforeEach((to, from, next) => {
+	const currentUser = firebase.auth().currentUser
+	if (to.meta.protected && !currentUser) {
+		router.push('login')
+	}
+	else {
+		next()
+	}
+})
 
-new Vue({
-	router,
-	render: h => h(App)
-}).$mount('#app')
+let app;
+firebase.auth().onAuthStateChanged(async user => {
+	if (!app) {
+		let user = await firebase.auth().currentUser
+
+		app = new Vue({
+			router,
+			created() {
+				if (!user) {
+					this.router.push('/login')
+				}
+			},
+			render: h => h(App)
+		}).$mount('#app')
+	}
+})
+
+Vue.config.productionTip = false
