@@ -4,6 +4,7 @@
 		<h2>Here are your latest expenses</h2>
 		<div class="expenses-inner">
 			<div class="expenses-header">
+				<NextPrev />
 				<div class="select-month">
 					<label for="months">
 						Showing expenses for:
@@ -61,12 +62,14 @@ import { db, Timestamp } from '@/main'
 import firebase from 'firebase/app'
 import Modal from './Modal.vue'
 import Months from './Months.vue'
+import NextPrev from './NextPrev.vue'
 
 export default {
 	name: 'Expenses',
 	components: {
 		Modal,
 		Months,
+		NextPrev,
 	},
 	props: {
 		newRecord: Object
