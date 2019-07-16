@@ -167,16 +167,6 @@ h2 {
 			color: #989898;
 		}
 
-		select {
-			-webkit-appearance: none;
-			padding: .5rem 2rem .5rem 1rem;
-			border-radius: 6px;
-			border: 1px solid #eaeaea;
-			outline: none;
-			background-color: #fff;
-			font-size: 1rem;
-		}
-
 		button {
 			padding: .75rem 1.5rem;
 			border-radius: 8px;

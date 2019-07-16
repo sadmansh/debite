@@ -31,3 +31,17 @@ export default {
 }
 
 </script>
+
+<style lang="scss" scoped="">
+	
+select {
+	-webkit-appearance: none;
+	padding: .5rem 2rem .5rem 1rem;
+	border-radius: 6px;
+	border: 1px solid #eaeaea;
+	outline: none;
+	background-color: #fff;
+	font-size: 1rem;
+}
+
+</style>
