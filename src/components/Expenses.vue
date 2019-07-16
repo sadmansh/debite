@@ -7,7 +7,7 @@
 				<div class="select-month">
 					<label for="months">
 						Showing expenses for:
-						<Months />
+						<Months v-on:selectedMonth="sortExpensesByMonth"/>
 					</label>
 				</div>
 				<button id="add-expense" @click="showModal">Add Expense</button>
@@ -83,6 +83,7 @@ export default {
 			},
 			modalVisibility: false,
 			user: firebase.auth().currentUser,
+			currentMonth: new Date().getMonth() + 1,
 		}
 	},
 	methods: {
@@ -95,6 +96,22 @@ export default {
 				date: date,
 				comments: comments,
 			})
+		},
+		getExpenses(month = this.currentMonth) {
+			let self = this
+			const ref = db.collection('users').doc(this.user.uid).collection('expenses').where('date', '>=', Timestamp.fromDate(new Date(`2019-${month}`))).where('date', '<', Timestamp.fromDate(new Date(`2019-${parseInt(month) + 1}`))).orderBy('date', 'desc')
+			ref.onSnapshot(function(querySnapshot) {
+				let expenses = []
+				querySnapshot.forEach(function(doc) {
+					expenses.push(doc.data())
+				})
+				self.expenses = expenses
+				self.calculateTotal()
+			})
+		},
+		sortExpensesByMonth(month) {
+			this.getExpenses(month)
+			console.log('ran the function')
 		},
 		showModal() {
 			this.modalVisibility = true
@@ -113,21 +130,7 @@ export default {
 		}
 	},
 	created() {
-		// firebase.auth().onAuthStateChanged((user) => {
-		// 	if (user) {
-		// 		this.user = user
-		// 	}
-		// })
-		let self = this
-		const ref = db.collection('users').doc(this.user.uid).collection('expenses').where('date', '>=', Timestamp.fromDate(new Date('2019-7'))).orderBy('date', 'desc')
-		ref.onSnapshot(function(querySnapshot) {
-			let expenses = []
-			querySnapshot.forEach(function(doc) {
-				expenses.push(doc.data())
-			})
-			self.expenses = expenses
-			self.calculateTotal()
-		})
+		this.getExpenses()
 	}
 }
 

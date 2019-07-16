@@ -24,7 +24,7 @@ export default {
 	},
 	mounted() {
 		document.getElementById('months').addEventListener('change', () => {
-			let selectedMonth = document.getElementById('months')
+			let selectedMonth = document.getElementById('months').value
 			this.$emit('selectedMonth', selectedMonth) 
 		})
 	}
