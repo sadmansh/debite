@@ -1,14 +1,13 @@
 <template>
 	<div class="expenses">
-		<h1>Expenses for {{ user.uid }}</h1>
+		<h1>Hey {{ user.displayName.substr(0, user.displayName.indexOf(' ')) }} &#x1F44B;</h1>
+		<h2>Here are your latest expenses</h2>
 		<div class="expenses-inner">
 			<div class="expenses-header">
 				<div class="select-month">
 					<label for="months">
 						Showing expenses for:
-						<select name="months" id="months">
-							<option value="jan">January</option>
-						</select>
+						<Months />
 					</label>
 				</div>
 				<button id="add-expense" @click="showModal">Add Expense</button>
@@ -61,11 +60,13 @@
 import { db, Timestamp } from '@/main'
 import firebase from 'firebase/app'
 import Modal from './Modal.vue'
+import Months from './Months.vue'
 
 export default {
 	name: 'Expenses',
 	components: {
 		Modal,
+		Months,
 	},
 	props: {
 		newRecord: Object
@@ -118,7 +119,7 @@ export default {
 		// 	}
 		// })
 		let self = this
-		const ref = db.collection('users').doc(this.user.uid).collection('expenses').orderBy('date', 'desc')
+		const ref = db.collection('users').doc(this.user.uid).collection('expenses').where('date', '>=', Timestamp.fromDate(new Date('2019-7'))).orderBy('date', 'desc')
 		ref.onSnapshot(function(querySnapshot) {
 			let expenses = []
 			querySnapshot.forEach(function(doc) {
@@ -134,7 +135,8 @@ export default {
 
 <style scoped lang="scss">
 
-h1 {
+h1,
+h2 {
 	text-align: left;
 }
 
