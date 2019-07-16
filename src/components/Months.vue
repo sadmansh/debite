@@ -1,6 +1,6 @@
 <template>
 	<select name="months" id="months">
-		<option v-for="(month, index) in months" :value="index + 1" :selected="isCurrentMonth(index + 1)">{{ month }}</option>
+		<option v-for="(month, index) in months" :value="index + 1" v-bind:selected="isCurrentMonth(index + 1)">{{ month }}</option>
 	</select>
 </template>
 
@@ -20,8 +20,14 @@ export default {
 				return true
 			}
 			return false
-		}
+		},
 	},
+	mounted() {
+		document.getElementById('months').addEventListener('change', () => {
+			let selectedMonth = document.getElementById('months')
+			this.$emit('selectedMonth', selectedMonth) 
+		})
+	}
 }
 
 </script>
