@@ -1,6 +1,10 @@
 <template>
 	<div id="next-prev">
 		<button class="prev"><span class="arrow">Prev</span></button>
+		<select name="sort-by" id="sort-by">
+			<option value="day">Day</option>
+			<option value="month">Month</option>
+		</select>
 		<button class="next"><span class="arrow">Next</span></button>
 	</div>
 </template>
@@ -9,6 +13,9 @@
 
 export default {
 	name: 'NextPrev',
+	props: {
+		sortBy: String,
+	}
 }
 
 </script>
@@ -18,10 +25,10 @@ export default {
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
+		margin-right: 1rem;
 
 		button {
 			padding: .75rem;
-			margin-right: 1rem;
 			border: 1px solid #000;
 			border-radius: 3px;
 			cursor: pointer;
@@ -63,6 +70,12 @@ export default {
 					border-color: #fff;
 				}
 			}
+		}
+
+		#sort-by {
+			display: inline-block;
+			margin: 0 1rem;
+			background-color: 
 		}
 	}
 </style>

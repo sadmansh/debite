@@ -4,7 +4,7 @@
 		<h2>Here are your latest expenses</h2>
 		<div class="expenses-inner">
 			<div class="expenses-header">
-				<NextPrev />
+				<NextPrev sortBy="month" />
 				<div class="select-month">
 					<label for="months">
 						Showing expenses for:
