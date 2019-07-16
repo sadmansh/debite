@@ -83,8 +83,12 @@ export default {
 			},
 			modalVisibility: false,
 			user: firebase.auth().currentUser,
-			currentMonth: new Date().getMonth() + 1,
-		}
+			currentDate: {
+				day: new Date().getDate(),
+				month: new Date().getMonth() + 1,
+				year: new Date().getFullYear(),
+			},
+		}	
 	},
 	methods: {
 		createExpense(title, amount, bank, comments) {
@@ -97,7 +101,7 @@ export default {
 				comments: comments,
 			})
 		},
-		getExpenses(month = this.currentMonth) {
+		getExpenses(month = this.currentDate.month) {
 			let self = this
 			const ref = db.collection('users').doc(this.user.uid).collection('expenses').where('date', '>=', Timestamp.fromDate(new Date(`2019-${month}`))).where('date', '<', Timestamp.fromDate(new Date(`2019-${parseInt(month) + 1}`))).orderBy('date', 'desc')
 			ref.onSnapshot(function(querySnapshot) {
