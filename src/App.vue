@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
 		<div id="nav">
-			<router-link to="/dashboard">Dashboard</router-link> |
+			<router-link to="/">Dashboard</router-link> |
 			<router-link to="/about">About</router-link> |
 			<router-link to="/login" v-if="!authenticated">Login</router-link>
 			<router-link to="/logout" v-else>Log out</router-link>

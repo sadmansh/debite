@@ -22,11 +22,6 @@ export default new Router({
 		},
 		{
 			path: '/',
-			name: 'home',
-			component: Dashboard,
-		},
-		{
-			path: '/dashboard',
 			name: 'dashboard',
 			component: Dashboard,
 			meta: {
