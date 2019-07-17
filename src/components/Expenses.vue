@@ -119,7 +119,6 @@ export default {
 		},
 		sortExpensesByMonth(month) {
 			this.getExpenses(month)
-			console.log('ran the function')
 		},
 		showModal() {
 			this.modalVisibility = true
@@ -128,8 +127,6 @@ export default {
 			this.modalVisibility = false
 		},
 		toggleMonthSelector(selector) {
-			console.log(selector)
-			console.log(`toggling`)
 			if (selector == 'month') {
 				this.monthSelectorVisibility = true
 			}

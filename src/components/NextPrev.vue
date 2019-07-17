@@ -19,7 +19,6 @@ export default {
 	methods: {
 		selectSort(event) {
 			let selectedSort = document.getElementById('sort-by').value
-			console.log(`selected ${selectedSort}`)
 			this.$emit('showMonthSelector', selectedSort)
 		}
 	},
