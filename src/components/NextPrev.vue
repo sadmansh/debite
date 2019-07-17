@@ -1,8 +1,8 @@
 <template>
 	<div id="next-prev">
 		<button class="prev"><span class="arrow">Prev</span></button>
-		<select name="sort-by" id="sort-by">
-			<option value="day">Day</option>
+		<select name="sort-by" id="sort-by" @change="selectSort($event)">
+			<option value="day" selected>Day</option>
 			<option value="month">Month</option>
 		</select>
 		<button class="next"><span class="arrow">Next</span></button>
@@ -15,7 +15,14 @@ export default {
 	name: 'NextPrev',
 	props: {
 		sortBy: String,
-	}
+	},
+	methods: {
+		selectSort(event) {
+			let selectedSort = document.getElementById('sort-by').value
+			console.log(`selected ${selectedSort}`)
+			this.$emit('showMonthSelector', selectedSort)
+		}
+	},
 }
 
 </script>
@@ -25,7 +32,7 @@ export default {
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
-		margin-right: 1rem;
+		margin: 0 1rem;
 
 		button {
 			padding: .75rem;

@@ -4,14 +4,14 @@
 		<h2>Here are your latest expenses</h2>
 		<div class="expenses-inner">
 			<div class="expenses-header">
-				<NextPrev sortBy="month" />
-				<div class="select-month">
+				<button id="add-expense" @click="showModal">Add Expense</button>
+				<NextPrev sortBy="month" v-on:showMonthSelector="toggleMonthSelector" />
+				<div class="select-month" v-if="monthSelectorVisibility">
 					<label for="months">
 						Showing expenses for:
 						<Months v-on:selectedMonth="sortExpensesByMonth"/>
 					</label>
 				</div>
-				<button id="add-expense" @click="showModal">Add Expense</button>
 			</div>
 			<table class="expenses-table">
 				<thead>
@@ -85,6 +85,7 @@ export default {
 				comments: '',
 			},
 			modalVisibility: false,
+			monthSelectorVisibility: false,
 			user: firebase.auth().currentUser,
 			currentDate: {
 				day: new Date().getDate(),
@@ -125,6 +126,16 @@ export default {
 		},
 		closeModal() {
 			this.modalVisibility = false
+		},
+		toggleMonthSelector(selector) {
+			console.log(selector)
+			console.log(`toggling`)
+			if (selector == 'month') {
+				this.monthSelectorVisibility = true
+			}
+			else {
+				this.monthSelectorVisibility = false
+			}
 		},
 		calculateTotal() {
 			this.monthTotal = 0
