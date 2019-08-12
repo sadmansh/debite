@@ -1,7 +1,6 @@
 .DS_Store
 .eslintignore
 node_modules
-/dist
 
 # local env files
 .env.local
